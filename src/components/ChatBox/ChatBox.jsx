@@ -14,27 +14,29 @@ const ChatBox = ({ username, color: initialColor }) => {
   const messagesEndRef = useRef(null); // Ref para el final del contenedor de mensajes
   const [lastTimestamp, setLastTimestamp] = useState(null);
 
+  const [lastMessageId, setLastMessageId] = useState(null);
+
   useEffect(() => {
-    // Cargar los últimos 100 mensajes al montar el componente
+    // Función para obtener los últimos 100 mensajes al iniciar
     axios.get('https://chat-back-unique2024.rj.r.appspot.com/chats')
       .then(response => {
         setMessages(response.data);
         if (response.data.length > 0) {
-          setLastTimestamp(response.data[response.data.length - 1].timestamp);
+          setLastMessageId(response.data[response.data.length - 1].id);
         }
       })
-      .catch(error => console.error('Error fetching initial messages:', error));
-
-    // Configurar la consulta recurrente para mensajes nuevos
+      .catch(error => console.error('Error fetching messages:', error));
+   
+    // Intervalo para verificar nuevos mensajes
     const intervalId = setInterval(() => {
-      if (lastTimestamp) {
+      if (lastMessageId) {
         axios.get('https://chat-back-unique2024.rj.r.appspot.com/chats/new', {
-          params: { lastReadTime: lastTimestamp }
+          params: { lastReadId: lastMessageId }
         })
         .then(response => {
           if (response.data.length > 0) {
             setMessages(prevMessages => [...prevMessages, ...response.data]);
-            setLastTimestamp(response.data[response.data.length - 1].timestamp);
+            setLastMessageId(response.data[response.data.length - 1].id);
           }
         })
         .catch(error => console.error('Error fetching new messages:', error));
@@ -43,8 +45,7 @@ const ChatBox = ({ username, color: initialColor }) => {
 
     // Limpiar el intervalo al desmontar el componente
     return () => clearInterval(intervalId);
-  }, [lastTimestamp]);
-
+  }, [lastMessageId]);
   
   // Carga los sonidos de teclado
   const typingSounds = [
