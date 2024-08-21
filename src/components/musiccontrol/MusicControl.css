@@ -1,0 +1,54 @@
+/* MusicControl.css */
+
+.music-control-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(173, 216, 230, 0.5); /* Sombra suave */
+    animation: blueGlow 3s infinite alternate;
+    display: flex;
+    align-items: center;
+    color: #fff;
+  }
+  
+  @keyframes blueGlow {
+    0% {
+      box-shadow: 0 0 5px #00f, 0 0 10px #00bfff, 0 0 15px #87ceeb, 0 0 20px #add8e6;
+    }
+    50% {
+      box-shadow: 0 0 5px #add8e6, 0 0 10px #87ceeb, 0 0 15px #00bfff, 0 0 20px #00f;
+    }
+    100% {
+      box-shadow: 0 0 5px #00f, 0 0 10px #00bfff, 0 0 15px #87ceeb, 0 0 20px #add8e6;
+    }
+  }
+  
+  .music-control {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+  }
+  
+  .music-control button {
+    background-color: #007bff;
+    border: none;
+    max-width: 25%;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    
+    cursor: pointer;
+  }
+  
+  .music-control button:hover {
+    background-color: #0056b3;
+  }
+  
+  .music-control input[type="range"] {
+    margin-left: 10px;
+  }
+  
